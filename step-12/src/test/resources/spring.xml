@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans>
+
+    <bean id="userService" class="cn.stanoswald.springframework.test.bean.UserService"/>
+
+    <bean class="cn.stanoswald.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/>
+
+    <bean id="beforeAdvice" class="cn.stanoswald.springframework.test.bean.UserServiceBeforeAdvice"/>
+
+    <bean id="methodInterceptor"
+          class="cn.stanoswald.springframework.aop.framework.adapter.MethodBeforeAdviceInterceptor">
+        <property name="advice" ref="beforeAdvice"/>
+    </bean>
+
+    <bean id="pointcutAdvisor" class="cn.stanoswald.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor">
+        <property name="expression" value="execution(* cn.stanoswald.springframework.test.bean.IUserService.queryUserInfo(..))"/>
+        <property name="advice" ref="methodInterceptor"/>
+    </bean>
+
+</beans>
